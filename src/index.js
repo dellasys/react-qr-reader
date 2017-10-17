@@ -146,6 +146,11 @@ module.exports = class Reader extends Component {
   initiate(props = this.props) {
     const { onError, facingMode, chooseDeviceId } = props
 
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      onError(new Error('navigator.mediaDevices.getUserMedia not supported.'))
+      return
+    }
+
     const isFirefox = /firefox/i.test(navigator.userAgent)
 
     let deviceIdPromise
